@@ -1,0 +1,35 @@
+version: '3.7'
+
+services:
+
+  postgres:
+    container_name: "postgres"
+    env_file:
+      - .env
+    image: postgres:14-alpine
+    restart: "${DOCKER_RESTART_POLICY:-always}"
+
+  clickhouse:
+    container_name: "clickhouse"
+    env_file:
+      - .env
+    image: yandex/clickhouse-server:latest
+    ulimits:
+      nofile:
+        soft: 262144
+        hard: 262144
+    restart: "${DOCKER_RESTART_POLICY:-always}"
+
+  plausible_analytics:
+    container_name: "plausible_analytics"
+    env_file:
+      - .env
+    environment:
+      BASE_URL: "${BASE_URL:-http://analytics.plausible.local}"
+      DATABASE_URL: "postgres://$POSTGRES_USER:$POSTGRES_PASSWORD@postgres:5432/$POSTGRES_DB"
+      CLICKHOUSE_DATABASE_URL: "http://$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD@clickhouse:8123/$CLICKHOUSE_DB"
+    image: plausible/analytics:latest
+    restart: "${DOCKER_RESTART_POLICY:-always}"
+    depends_on:
+      - postgres
+      - clickhouse

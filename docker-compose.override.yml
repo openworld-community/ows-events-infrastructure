@@ -1,0 +1,30 @@
+version: '3.7'
+
+#
+volumes:
+  data-postgres:
+    driver: local
+  data-clickhouse:
+    driver: local
+#
+services:
+
+  postgres:
+    volumes:
+      - data-postgres:/var/lib/postgresql/data
+
+  clickhouse:
+    volumes:
+      - data-clickhouse:/var/lib/clickhouse
+
+  plausible_analytics:
+    command: sh -c "sleep 10 && /entrypoint.sh db migrate && /entrypoint.sh db init-admin && /entrypoint.sh run"
+    ports:
+      - 8000:8000
+
+  ansible:
+    environment:
+      ANSIBLE_CONFIG: "/etc/ansible/ansible.cfg"
+    volumes:
+      - ./:/etc/ansible:ro
+
