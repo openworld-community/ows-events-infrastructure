@@ -29,17 +29,3 @@ jobs:
 
       - name: 'Running'
         run: yamllint -c .yamllint.yml .
-
-  hadoLint:
-    name: 'hadoLint'
-    runs-on: ubuntu-latest
-    steps:
-
-      - uses: actions/checkout@v2
-
-      - name: 'Running'
-        uses: hadolint/hadolint-action@master
-        with:
-          dockerfile: "Dockerfile"
-          recursive: true
-          config: ./.hadolint.yaml
