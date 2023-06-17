@@ -21,10 +21,3 @@ services:
     command: sh -c "sleep 10 && /entrypoint.sh db migrate && /entrypoint.sh db init-admin && /entrypoint.sh run"
     ports:
       - 8000:8000
-
-  ansible:
-    environment:
-      ANSIBLE_CONFIG: "/etc/ansible/ansible.cfg"
-    volumes:
-      - ./:/etc/ansible:ro
-
