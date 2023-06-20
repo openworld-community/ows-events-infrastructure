@@ -99,4 +99,4 @@ jobs:
         with:
           ref: dev_env
 
-      - run: PlayBook.yml --check
+      - run: printenv && pwd && ls -la && ansible-playbook PlayBook.yml --check
