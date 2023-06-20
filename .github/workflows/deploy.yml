@@ -96,5 +96,7 @@ jobs:
     steps:
 
       - uses: actions/checkout@v1
+        with:
+          ref: dev_env
 
       - run: PlayBook.yml --check
