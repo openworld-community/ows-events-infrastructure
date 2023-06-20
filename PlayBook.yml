@@ -1,0 +1,7 @@
+#
+---
+
+- hosts: 1640081-cd84703.twc1.net
+
+  roles:
+    - nginxinc.nginx_config
