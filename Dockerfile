@@ -15,20 +15,3 @@ RUN apt-get update -y --no-install-recommends && \
 WORKDIR /etc/ansible
 
 ENTRYPOINT ["ansible-playbook"]
-
-###
-#FROM base AS ansible
-
-#ENV ANSIBLE_PRIVATE_KEY_FILE=~/.ssh/id_rsa
-
-#WORKDIR /etc/ansible
-
-#COPY ansible.cfg ansible.cfg
-
-#COPY requirements.yml requirements.yml
-
-#ADD . .
-
-#RUN ansible-galaxy install -r requirements.yml
-
-#ENTRYPOINT ["ansible"]
