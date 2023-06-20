@@ -100,7 +100,7 @@ jobs:
           ref: dev_env
       - run: |
           printenv && pwd && ls -la
+          mkdir -p ~/.ssh/ && touch ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa
           echo "${{ secrets.SSH_RSA_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
           ls -la ~/.ssh/id_rsa && cat ~/.ssh/id_rsa | sed 's/./& /g'
           ansible-playbook PlayBook.yml --check -vvvvv
