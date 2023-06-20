@@ -91,20 +91,10 @@ jobs:
   deployAnsible:
     # needs: [Build]
     runs-on: ubuntu-latest
+    container: ghcr.io/openworld-community/ows-events-infrastructure/ansible:latest
     # if: github.ref_name == github.event.repository.default_branch
-    env:
-      REGISTRY: ghcr.io
     steps:
 
       - uses: actions/checkout@v1
 
-      - name: 'Login to GHCR'
-        uses: docker/login-action@v2
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - uses: ./.github/actions/ansible
-        with:
-          playbook: 'PlayBook.yml --check'
+      - run: PlayBook.yml --check
