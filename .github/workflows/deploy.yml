@@ -52,7 +52,7 @@ jobs:
     needs: [YAMLLint, hadoLint]
     timeout-minutes: 5
     runs-on: ubuntu-latest
-    #if: github.ref_name == github.event.repository.default_branch
+    # if: github.ref_name == github.event.repository.default_branch
     env:
       REGISTRY: ghcr.io
       TAG_NAME: latest
@@ -88,10 +88,13 @@ jobs:
           push: true
 
   deployAnsible:
-    needs: build
+    # needs: [Build]
     runs-on: ubuntu-latest
+    # if: github.ref_name == github.event.repository.default_branch
     steps:
-    - uses: actions/checkout@v1
-    - uses: ./.github/actions/ansible
-      with:
-        playbook: 'PlayBook.yml --check'
+
+      - uses: actions/checkout@v1
+
+      - uses: ./.github/actions/ansible
+        with:
+          playbook: 'PlayBook.yml --check'
