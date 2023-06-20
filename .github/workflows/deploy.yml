@@ -86,3 +86,12 @@ jobs:
           target: ansible
           tags: "${{ env.IMAGE_TAG }}"
           push: true
+
+  deployAnsible:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - uses: ./.github/actions/ansible
+      with:
+        playbook: 'PlayBook.yml --check'

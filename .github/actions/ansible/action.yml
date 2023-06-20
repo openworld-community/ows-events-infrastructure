@@ -1,0 +1,13 @@
+name: 'Ansible'
+description: 'Runs an Ansible playbook'
+inputs:
+  playbook:
+    description: 'Ansible playbook to run'
+    required: true
+    default: playbook.yml
+
+runs:
+  using: 'docker'
+  image: 'ghcr.io/openworld-community/ows-events-infrastructure/ansible:latest'
+  args:
+    - ${{ inputs.playbook }}
