@@ -119,5 +119,6 @@ jobs:
           ansible-galaxy install -r requirements.yml
           mkdir -p ~/.ssh/ && touch ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa
           echo "${{ secrets.SSH_RSA_KEY }}" > ~/.ssh/id_rsa
-          echo "$APP_ENV">  .env
-          ansible-playbook PlayBook.yml -vvv
+          echo "$APP_ENV" >  .env
+          printenv && ls -la && cat .env
+          # ansible-playbook PlayBook.yml -vvv
