@@ -47,9 +47,25 @@ jobs:
           recursive: true
           config: ./.hadolint.yaml
 
+  ansible-lint:
+     name: ansible-lint
+     runs-on: ubuntu-latest
+     steps:
+
+     - uses: actions/checkout@v2.3.4
+
+      - name: 'Installing'
+        run: |
+          python -m pip install --upgrade pip
+          pip install ansible ansible-lint
+
+     - name: 'Running'
+       run: |
+         ansible-playbook PlayBook.yml --syntax-check
+
   Build:
     name: 'Build'
-    needs: [YAMLLint, hadoLint]
+    needs: [YAMLLint, hadoLint, ansible-lint]
     timeout-minutes: 5
     runs-on: ubuntu-latest
     # if: github.ref_name == github.event.repository.default_branch
@@ -93,10 +109,13 @@ jobs:
     runs-on: ubuntu-latest
     container: ghcr.io/openworld-community/ows-events-infrastructure/ansible:latest
     # if: github.ref_name == github.event.repository.default_branch
+    env:
+      APP_ENV: ${{ secrets.ENV_PRODUCTION }}
     steps:
 
       - uses: actions/checkout@v2
       - run: |
           mkdir -p ~/.ssh/ && touch ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa
           echo "${{ secrets.SSH_RSA_KEY }}" > ~/.ssh/id_rsa
-          printenv && pwd && ls -la && ls -la ~/.ssh/id_rsa
+          echo "$APP_ENV">  .env
+          ansible-playbook PlayBook.yml --check -vvv

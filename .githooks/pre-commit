@@ -10,4 +10,7 @@ docker run -e DISABLE_ERRORS=true \
            -e YAML_CONFIG_FILE=.yamllint.yml \
            -e VALIDATE_DOCKERFILE_HADOLINT=true \
            -e DOCKERFILE_HADOLINT_FILE_NAME=.hadolint.yaml \
+           -e VALIDATE_ANSIBLE=true \
+           -e ANSIBLE_CONFIG_FILE=.ansible-lint.yml \
+           -e ANSIBLE_DIRECTORY=. \
            -e LINTER_RULES_PATH=/ -e RUN_LOCAL=true --rm github/super-linter

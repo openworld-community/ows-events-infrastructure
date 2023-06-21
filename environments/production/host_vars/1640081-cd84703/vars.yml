@@ -1,0 +1,9 @@
+#
+---
+
+plausible_analytics_base_url: "{{ lookup('env', 'BASE_URL') }}"
+
+plausible_analytics_listen_ip: "{{ lookup('env', 'LISTEN_IP') }}"
+
+plausible_analytics_port: "{{ lookup('env', 'PORT') }}"
+
