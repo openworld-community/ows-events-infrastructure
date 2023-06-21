@@ -1,7 +1,2 @@
----
-
-#  - name: geerlingguy.postgresql
-#  - name: alexeysetevoi.clickhouse
-  - dudefellah.certbot
-#  - name: nginxinc.nginx
-  - name: nginxinc.nginx_config
+- src: dudefellah.certbot
+- src: nginxinc.nginx_config
