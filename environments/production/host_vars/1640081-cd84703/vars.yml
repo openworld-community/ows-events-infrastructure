@@ -1,6 +1,6 @@
 ---
 
-plausible_analytics_base_url: "{{ lookup('env', 'BASE_URL') }}"
+plausible_analytics_domain: "{{ lookup('env', 'BASE_URL') | urlsplit('hostname') }}"
 
 plausible_analytics_listen_ip: "{{ lookup('env', 'LISTEN_IP') }}"
 
@@ -13,12 +13,12 @@ GITHUB_REPOSITORY: "{{ lookup('env', 'GITHUB_REPOSITORY') }}"
 nginx_config_http_template_enable: true
 nginx_config_http_template:
   - template_file: http/default.conf.j2
-    deployment_location: "/etc/nginx/conf.d/{{ plausible_analytics_base_url }}.conf"
+    deployment_location: "/etc/nginx/conf.d/{{ plausible_analytics_domain }}.conf"
     backup: false
     config:
 
       upstreams:
-        - name: "upstream.{{ plausible_analytics_base_url }}.local"
+        - name: "upstream.{{ plausible_analytics_domain }}.local"
           least_conn: true
           servers:
             - address: '{{ plausible_analytics_listen_ip }}:{{ plausible_analytics_port }}'
@@ -29,7 +29,7 @@ nginx_config_http_template:
             listen:
               - port: 80
             server_name:
-              - "{{ plausible_analytics_base_url }}"
+              - "{{ plausible_analytics_domain }}"
 
           locations:
             - location: '/'
@@ -44,16 +44,16 @@ nginx_config_http_template:
                 ssl: true
                 http2: true
             server_name:
-              - "{{ plausible_analytics_base_url }}"
+              - "{{ plausible_analytics_domain }}"
 
           ssl:
             certificate:
-              - /etc/pki/tls/certs/{{ plausible_analytics_base_url }}-rsa/{{ plausible_analytics_base_url }}-rsa-fullchain.pem
-              - /etc/pki/tls/certs/{{ plausible_analytics_base_url }}-p-384/{{ plausible_analytics_base_url }}-p-384-fullchain.pem
+              - /etc/pki/tls/certs/{{ plausible_analytics_domain }}-rsa/{{ plausible_analytics_domain }}-rsa-fullchain.pem
+              - /etc/pki/tls/certs/{{ plausible_analytics_domain }}-p-384/{{ plausible_analytics_domain }}-p-384-fullchain.pem
             certificate_key:
-              - /etc/pki/tls/private/{{ plausible_analytics_base_url }}-rsa/{{ plausible_analytics_base_url }}-rsa.key
-              - /etc/pki/tls/private/{{ plausible_analytics_base_url }}-p-384/{{ plausible_analytics_base_url }}-p-384.key
-            trusted_certificate: '/etc/pki/tls/certs/{{ plausible_analytics_base_url }}-p-384/{{ plausible_analytics_base_url }}-p-384-chain.pem'
+              - /etc/pki/tls/private/{{ plausible_analytics_domain }}-rsa/{{ plausible_analytics_domain }}-rsa.key
+              - /etc/pki/tls/private/{{ plausible_analytics_domain }}-p-384/{{ plausible_analytics_domain }}-p-384.key
+            trusted_certificate: '/etc/pki/tls/certs/{{ plausible_analytics_domain }}-p-384/{{ plausible_analytics_domain }}-p-384-chain.pem'
             dhparam: '/etc/pki/tls/misc/dhparam.crt'
             protocols:
               - TLSv1.2
@@ -109,7 +109,7 @@ nginx_config_http_template:
           locations:
             - location: '/'
               proxy:
-                pass: "http://upstream.{{ plausible_analytics_base_url }}.local"
+                pass: "http://upstream.{{ plausible_analytics_domain }}.local"
                 connect_timeout: '1s'
                 bind: false
                 set_header:
