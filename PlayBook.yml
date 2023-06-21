@@ -12,20 +12,20 @@
 
     - name: Creating project directory
       ansible.builtin.file:
-        path: "~/{{ COMPOSE_PROJECT_NAME }}"
+        path: "~/{{ GITHUB_REPOSITORY }}"
         state: directory
         # mode: '0755'
 
     - name: Copying docker compose files
       copy:
         src: "{{ item }}"
-        dest: "~/{{ COMPOSE_PROJECT_NAME }}/{{ item }}"
+        dest: "~/{{ GITHUB_REPOSITORY }}/{{ item }}"
       loop:
         - docker-compose.yml
         - .env
 
     - name: Deploing docker compose stack
       community.docker.docker_compose:
-        project_src: "~/{{ COMPOSE_PROJECT_NAME }}"
+        project_src: "~/{{ GITHUB_REPOSITORY }}"
         #files:
         #  - docker-compose.yml
