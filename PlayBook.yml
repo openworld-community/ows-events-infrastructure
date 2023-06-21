@@ -6,7 +6,7 @@
     - name: Debug
       debug:
         msg:
-          - "URL: {{ plausible_analytics_base_url }}"
+          - "URL: {{ plausible_analytics_domain }}"
           - "IP: {{plausible_analytics_listen_ip}}"
           - "PORT: {{plausible_analytics_port}}"
           - "PROJECT: {{ COMPOSE_PROJECT_NAME }}"
