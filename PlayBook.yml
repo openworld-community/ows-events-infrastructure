@@ -7,10 +7,10 @@
       delegate_to: localhost
       debug:
         msg:
-          - "URL: {{plausible_analytics_base_url}}"
+          - "URL: {{ lookup('env', 'BASE_URL') }}"
           - "IP: {{plausible_analytics_listen_ip}}"
           - "PORT: {{plausible_analytics_port}}"
-          - "PROJECT: {{COMPOSE_PROJECT_NAME}}"
+          - "PROJECT: {{ lookup('env', 'COMPOSE_PROJECT_NAME') }}"
 
 
 #  roles:
