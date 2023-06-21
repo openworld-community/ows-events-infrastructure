@@ -3,8 +3,9 @@
 - hosts: 1640081-cd84703
 
   pre_tasks:
-    - debug:
-        delegate_to: localhost
+    - name: Debug
+      delegate_to: localhost
+      debug:
         msg:
           - "URL: {{plausible_analytics_base_url}}"
           - "IP: {{plausible_analytics_listen_ip}}"
