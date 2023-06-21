@@ -2,39 +2,29 @@
 
 - hosts: 1640081-cd84703
 
-  pre_tasks:
-    - name: Debug
-      debug:
-        msg:
-          - "URL: {{ plausible_analytics_domain }}"
-          - "IP: {{plausible_analytics_listen_ip}}"
-          - "PORT: {{plausible_analytics_port}}"
-          - "PROJECT: {{ COMPOSE_PROJECT_NAME }}"
-
   roles:
     - {role: nginxinc.nginx, ignore_errors: yes}
     - {role: geerlingguy.certbot, ignore_errors: yes}
     - {role: nginxinc.nginx_config, ignore_errors: yes}
 
 
-#  tasks:
+  tasks:
 
-#    - name: Creating project directory
-#      ansible.builtin.file:
-#        path: "~/{{ GITHUB_REPOSITORY }}"
-#        state: directory
-#        # mode: '0755'
+    - name: Creating project directory
+      ansible.builtin.file:
+        path: "~/{{ GITHUB_REPOSITORY }}"
+        state: directory
 
-#    - name: Copying docker compose files
-#      copy:
-#        src: "{{ item }}"
-#        dest: "~/{{ GITHUB_REPOSITORY }}/{{ item }}"
-#      loop:
-#        - docker-compose.yml
-#        - .env
+    - name: Copying docker compose files
+      copy:
+        src: "{{ item }}"
+        dest: "~/{{ GITHUB_REPOSITORY }}/{{ item }}"
+      loop:
+        - docker-compose.yml
+        - .env
 
-#    - name: Deploing docker compose stack
-#      community.docker.docker_compose:
-#        project_src: "~/{{ GITHUB_REPOSITORY }}"
-#        files:
-#          - docker-compose.yml
+    - name: Deploing docker compose stack
+      community.docker.docker_compose:
+        project_src: "~/{{ GITHUB_REPOSITORY }}"
+        files:
+          - docker-compose.yml

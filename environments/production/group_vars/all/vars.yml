@@ -46,11 +46,10 @@ nginx_config_main_template:
       worker_aio_requests: 32
       worker_connections: 512
 #    include:
-#@      - /etc/nginx/modules.conf
+#      - /etc/nginx/modules.conf
     http:
       include:
         - /etc/nginx/conf.d/*.conf
-
 
 
 certbot_auto_renew: true
