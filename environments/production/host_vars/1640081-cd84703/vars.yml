@@ -34,12 +34,8 @@ nginx_config_http_template:
           locations:
             - location: '^~ /.well-known/acme-challenge/'
               core:
-                root: /var/www/letsencrypt
+                root: "{{ certbot_webroot }}"
                 default_type: "text/plain"
-
-            - location: '/.well-known/acme-challenge/'
-              core:
-                code: 404
 
             - location: '/'
               rewrite:
@@ -57,13 +53,11 @@ nginx_config_http_template:
 
           ssl:
             certificate:
-              - /etc/pki/tls/certs/{{ plausible_analytics_domain }}-rsa/{{ plausible_analytics_domain }}-rsa-fullchain.pem
-              - /etc/pki/tls/certs/{{ plausible_analytics_domain }}-p-384/{{ plausible_analytics_domain }}-p-384-fullchain.pem
+              - /etc/letsencrypt/live/{{ plausible_analytics_domain }}/fullchain.pem
             certificate_key:
-              - /etc/pki/tls/private/{{ plausible_analytics_domain }}-rsa/{{ plausible_analytics_domain }}-rsa.key
-              - /etc/pki/tls/private/{{ plausible_analytics_domain }}-p-384/{{ plausible_analytics_domain }}-p-384.key
-            trusted_certificate: '/etc/pki/tls/certs/{{ plausible_analytics_domain }}-p-384/{{ plausible_analytics_domain }}-p-384-chain.pem'
-            dhparam: '/etc/pki/tls/misc/dhparam.crt'
+              - /etc/letsencrypt/live/{{ plausible_analytics_domain }}/privkey.pem
+            #trusted_certificate: '/etc/pki/tls/certs/{{ plausible_analytics_domain }}-p-384/{{ plausible_analytics_domain }}-p-384-chain.pem'
+            #dhparam: '/etc/pki/tls/misc/dhparam.crt'
             protocols:
               - TLSv1.2
               - TLSv1.3
@@ -129,3 +123,11 @@ nginx_config_http_template:
                     value: '$remote_addr'
                   - field: 'REMOTE_ADDR'
                     value: '$remote_addr'
+
+
+certbot_testmode: false
+certbot_certs:
+  - email: pr0sto@hotmail.om
+    webroot: "{{ certbot_webroot }}"
+    domains:
+      - "{{ plausible_analytics_domain }}"
