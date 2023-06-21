@@ -3,6 +3,13 @@
 
 - hosts: 1640081-cd84703
 
+  roles:
+#    - geerlingguy.postgresql
+#    - alexeysetevoi.clickhouse
+    - dudefellah.certbot
+#    - nginxinc.nginx
+    - nginxinc.nginx_config
+
   tasks:
 
     - name: Creating project directory
