@@ -12,10 +12,8 @@
           - "PROJECT: {{ COMPOSE_PROJECT_NAME }}"
 
   roles:
-    - geerlingguy.certbot
-      ignore_errors: true
-    - nginxinc.nginx_config
-      ignore_errors: true
+    - {role: geerlingguy.certbot, ignore_errors: yes}
+    - {role: nginxinc.nginx_config, ignore_errors: yes}
 
 #  tasks:
 
