@@ -61,7 +61,7 @@ certbot_auto_renew_options: "--quiet"
 
 certbot_create_if_missing: true
 certbot_create_method: webroot
-certbot_testmode: true
+certbot_testmode: false
 
 certbot_admin_email: pr0sto@hotmail.om
 
