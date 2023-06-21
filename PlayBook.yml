@@ -4,6 +4,7 @@
 
   pre_tasks:
     - debug:
+        delegate_to: localhost
         msg:
           - "URL: {{plausible_analytics_base_url}}"
           - "IP: {{plausible_analytics_listen_ip}}"
