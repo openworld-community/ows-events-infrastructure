@@ -7,10 +7,10 @@
       delegate_to: localhost
       debug:
         msg:
-          - "URL: {{ lookup('env', 'BASE_URL') }}"
+          - "URL: {{ ansible.builtin.env('env', 'BASE_URL') }}"
           - "IP: {{plausible_analytics_listen_ip}}"
           - "PORT: {{plausible_analytics_port}}"
-          - "PROJECT: {{ lookup('env', 'COMPOSE_PROJECT_NAME') }}"
+          - "PROJECT: {{ ansible.builtin.env('env', 'COMPOSE_PROJECT_NAME') }}"
 
 
 #  roles:
