@@ -36,7 +36,6 @@ nginx_config_http_template:
               core:
                 root: "{{ certbot_webroot }}"
                 default_type: "text/plain"
-
             - location: '/'
               rewrite:
                 return:
