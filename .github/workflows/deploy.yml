@@ -120,4 +120,4 @@ jobs:
           mkdir -p ~/.ssh/ && touch ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa
           echo "${{ secrets.SSH_RSA_KEY }}" > ~/.ssh/id_rsa
           echo "$APP_ENV">  .env
-          ansible-playbook PlayBook.yml --check -vvv
+          ansible-playbook PlayBook.yml -vvv

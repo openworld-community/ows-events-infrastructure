@@ -51,12 +51,12 @@ nginx_config_http_template:
 
           ssl:
             certificate:
-              - /etc/pki/tls/certs/name.example.com-rsa/name.example.com-rsa-fullchain.pem
-              - /etc/pki/tls/certs/name.example.com-p-384/name.example.com-p-384-fullchain.pem
+              - /etc/pki/tls/certs/{{ plausible_analytics_base_url }}-rsa/{{ plausible_analytics_base_url }}-rsa-fullchain.pem
+              - /etc/pki/tls/certs/{{ plausible_analytics_base_url }}-p-384/{{ plausible_analytics_base_url }}-p-384-fullchain.pem
             certificate_key:
-              - /etc/pki/tls/private/name.example.com-rsa/name.example.com-rsa.key
-              - /etc/pki/tls/private/name.example.com-p-384/name.example.com-p-384.key
-            trusted_certificate: '/etc/pki/tls/certs/name.example.com-p-384/name.example.com-p-384-chain.pem'
+              - /etc/pki/tls/private/{{ plausible_analytics_base_url }}-rsa/{{ plausible_analytics_base_url }}-rsa.key
+              - /etc/pki/tls/private/{{ plausible_analytics_base_url }}-p-384/{{ plausible_analytics_base_url }}-p-384.key
+            trusted_certificate: '/etc/pki/tls/certs/{{ plausible_analytics_base_url }}-p-384/{{ plausible_analytics_base_url }}-p-384-chain.pem'
             dhparam: '/etc/pki/tls/misc/dhparam.crt'
             protocols:
               - TLSv1.2
