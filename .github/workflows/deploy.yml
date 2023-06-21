@@ -118,6 +118,5 @@ jobs:
           mkdir -p ~/.ssh/ && touch ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa
           echo "${{ secrets.SSH_RSA_KEY }}" > ~/.ssh/id_rsa
           echo "${{ secrets.ENV_PRODUCTION }}" >  .env
-          set -o allexport && source .env && set +o allexport
-          printenv
+          # set -o allexport && source .env && set +o allexport && printenv
           ansible-playbook PlayBook.yml -vvv
