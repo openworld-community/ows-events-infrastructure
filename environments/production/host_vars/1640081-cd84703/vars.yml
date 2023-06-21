@@ -8,7 +8,7 @@ plausible_analytics_port: "{{ lookup('env', 'PORT') }}"
 
 COMPOSE_PROJECT_NAME: "{{ lookup('env', 'COMPOSE_PROJECT_NAME') }}"
 
-COMPOSE_PROJECT_NAME: "{{ lookup('env', 'COMPOSE_PROJECT_NAME') }}"
+GITHUB_REPOSITORY: "{{ lookup('env', 'GITHUB_REPOSITORY') }}"
 
 nginx_config_http_template_enable: true
 nginx_config_http_template:
