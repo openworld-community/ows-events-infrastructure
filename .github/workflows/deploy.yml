@@ -119,5 +119,5 @@ jobs:
           echo "${{ secrets.SSH_RSA_KEY }}" > ~/.ssh/id_rsa
           echo "${{ secrets.ENV_PRODUCTION }}" >  .env
           set -o allexport && source .env && set +o allexport
-          printenv && ls -la && cat .env | sed 's/./& /g'
-          # ansible-playbook PlayBook.yml -vvv
+          printenv
+          ansible-playbook PlayBook.yml -vvv
