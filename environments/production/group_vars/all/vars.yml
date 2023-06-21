@@ -7,10 +7,18 @@ certbot_auto_renew_minute: "20"
 certbot_auto_renew_options: "--quiet"
 
 certbot_create_if_missing: true
-certbot_create_method: standalone
+certbot_create_method: webroot
 certbot_testmode: true
 
 certbot_admin_email: pr0sto@hotmail.om
 
-certbot_create_standalone_stop_services:
-  - nginx
+certbot_certs:
+  - email: pr0sto@hotmail.om
+    webroot: "/var/www/letsencrypt"
+    domains:
+      - "{{ plausible_analytics_domain }}"
+
+#certbot_create_command: "{{ certbot_script }} certonly --webroot --noninteractive --agree-tos --email {{ cert_item.email | default(certbot_admin_email) }} -d {{ cert_item.domains | join(',') }}"
+
+#certbot_create_standalone_stop_services:
+#  - nginx

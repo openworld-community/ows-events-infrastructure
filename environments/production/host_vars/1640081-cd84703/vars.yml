@@ -32,6 +32,11 @@ nginx_config_http_template:
               - "{{ plausible_analytics_domain }}"
 
           locations:
+            - location: '~ /.well-known'
+              core:
+                root: /var/www/letsencrypt
+                limit_except:
+                  directive: allow all
             - location: '/'
               rewrite:
                 return:
