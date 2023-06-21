@@ -2,9 +2,18 @@
 
 - hosts: 1640081-cd84703
 
-  roles:
-    - geerlingguy.certbot
-    - nginxinc.nginx_config
+  pre_tasks:
+    - debug:
+        msg:
+          - "URL: {{plausible_analytics_base_url}}"
+          - "IP: {{plausible_analytics_listen_ip}}"
+          - "PORT: {{plausible_analytics_port}}"
+          - "PROJECT: {{COMPOSE_PROJECT_NAME}}"
+
+
+#  roles:
+#    - geerlingguy.certbot
+#    - nginxinc.nginx_config
 
 #  tasks:
 
