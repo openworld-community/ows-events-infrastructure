@@ -20,7 +20,7 @@ nginx_config_http_template:
         - name: "upstream.{{ plausible_analytics_base_url }}.local"
           least_conn: true
           servers:
-            - address: '127.0.0.1:8000'
+            - address: '{{ plausible_analytics_listen_ip }}:{{ plausible_analytics_port }}'
               weight: 5
 
       servers:

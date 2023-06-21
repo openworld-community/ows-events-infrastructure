@@ -27,5 +27,5 @@
     - name: Deploing docker compose stack
       community.docker.docker_compose:
         project_src: "~/{{ GITHUB_REPOSITORY }}"
-        #files:
-        #  - docker-compose.yml
+        files:
+          - docker-compose.yml
