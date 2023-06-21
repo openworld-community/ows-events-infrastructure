@@ -114,6 +114,7 @@ nginx_config_http_template:
             error:
               - /var/log/nginx/name_error.log
 
+          locations:
             - location: '/'
               proxy:
                 pass: "http://upstream.{{ plausible_analytics_domain }}.local"
