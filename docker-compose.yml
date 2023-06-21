@@ -1,0 +1,56 @@
+version: '3.7'
+
+services:
+
+  mail:
+    container_name: "plausible_mail"
+    image: bytemark/smtp
+    restart: "${DOCKER_RESTART_POLICY:-always}"
+
+  plausible_db:
+    container_name: "plausible_db"
+    env_file:
+      - .env
+    image: postgres:14-alpine
+    volumes:
+      - data-plausible_db:/var/lib/postgresql/data
+    restart: "${DOCKER_RESTART_POLICY:-always}"
+
+  plausible_events_db:
+    container_name: "plausible_events_db"
+    env_file:
+      - .env
+    image: clickhouse/clickhouse-server:22.8.13.20-alpine
+    volumes:
+      - data-plausible_events_db:/var/lib/clickhouse
+    ulimits:
+      nofile:
+        soft: 262144
+        hard: 262144
+    restart: "${DOCKER_RESTART_POLICY:-always}"
+
+  plausible:
+    container_name: "plausible"
+    env_file:
+      - .env
+    environment:
+      BASE_URL: "${BASE_URL:-http://analytics.plausible.local}"
+      DATABASE_URL: "postgres://$POSTGRES_USER:$POSTGRES_PASSWORD@plausible_db:5432/$POSTGRES_DB"
+      CLICKHOUSE_DATABASE_URL: "http://$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD@plausible_events_db:8123/$CLICKHOUSE_DB"
+    image: plausible/analytics:v1.5
+    command: sh -c "sleep 10 && /entrypoint.sh db migrate && /entrypoint.sh db init-admin && /entrypoint.sh run"
+    restart: "${DOCKER_RESTART_POLICY:-always}"
+    ports:
+      - 8000:8000
+    depends_on:
+      - plausible_db
+      - plausible_events_db
+      - mail
+
+volumes:
+  data-plausible_db:
+    driver: local
+  data-plausible_events_db:
+    driver: local
+  data-plausible_geoip:
+    driver: local
