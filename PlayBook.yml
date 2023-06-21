@@ -12,20 +12,20 @@
 
     - name: Creating project directory
       ansible.builtin.file:
-        path: ~/{{ COMPOSE_PROJECT_NAME }}
+        path: "~/{{ COMPOSE_PROJECT_NAME }}"
         state: directory
-        mode: '0755'
+        # mode: '0755'
 
     - name: Copying docker compose files
       copy:
-        src: ./{{ item }}
-        dest: ~/{{ COMPOSE_PROJECT_NAME }}/{{ item }}
+        src: "./{{ item }}"
+        dest: "~/{{ COMPOSE_PROJECT_NAME }}/{{ item }}"
       loop:
         - docker-compose.yml
         - .env
 
     - name: Deploing docker compose stack
       community.docker.docker_compose:
-        project_src: ~/{{ COMPOSE_PROJECT_NAME }}
+        project_src: "~/{{ COMPOSE_PROJECT_NAME }}"
         files:
           - docker-compose.yml
