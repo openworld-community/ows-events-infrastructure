@@ -4,7 +4,8 @@
 - hosts: 1640081-cd84703
 
   roles:
-    - dudefellah.certbot
+    # - nginx
+    - geerlingguy.certbot
     - nginxinc.nginx_config
 
   tasks:

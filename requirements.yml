@@ -1,2 +1,2 @@
-- src: dudefellah.certbot
+- src: geerlingguy.certbot
 - src: nginxinc.nginx_config
