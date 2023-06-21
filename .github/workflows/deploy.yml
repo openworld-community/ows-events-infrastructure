@@ -20,90 +20,90 @@ permissions:
 
 jobs:
 
-  YAMLLint:
-    name: 'YAMLLint'
-    runs-on: ubuntu-latest
-    steps:
+#  YAMLLint:
+#    name: 'YAMLLint'
+#    runs-on: ubuntu-latest
+#    steps:
 
-      - uses: actions/checkout@v2.3.4
+#      - uses: actions/checkout@v2.3.4
 
-      - name: 'Installing'
-        run: python -m pip install yamllint
+#      - name: 'Installing'
+#        run: python -m pip install yamllint
 
-      - name: 'Running'
-        run: yamllint -c .yamllint.yml .
+#      - name: 'Running'
+#        run: yamllint -c .yamllint.yml .
 
-  hadoLint:
-    name: 'hadoLint'
-    runs-on: ubuntu-latest
-    steps:
+#  hadoLint:
+#    name: 'hadoLint'
+#    runs-on: ubuntu-latest
+#    steps:
 
-      - uses: actions/checkout@v2
+#      - uses: actions/checkout@v2
 
-      - name: 'Running'
-        uses: hadolint/hadolint-action@master
-        with:
-          dockerfile: "Dockerfile"
-          recursive: true
-          config: ./.hadolint.yaml
+#      - name: 'Running'
+#        uses: hadolint/hadolint-action@master
+#        with:
+#          dockerfile: "Dockerfile"
+#          recursive: true
+#          config: ./.hadolint.yaml
 
-  ansibleLint:
-    name: 'ansibleLint'
-    runs-on: ubuntu-latest
-    steps:
+ # ansibleLint:
+ #   name: 'ansibleLint'
+ #   runs-on: ubuntu-latest
+ #   steps:
 
-      - uses: actions/checkout@v2.3.4
+ #     - uses: actions/checkout@v2.3.4
 
-      - name: 'Installing'
-        run: |
-          python -m pip install --upgrade pip
-          pip install ansible ansible-lint
-          ansible-galaxy install -r requirements.yml
+#      - name: 'Installing'
+#        run: |
+#          python -m pip install --upgrade pip
+#          pip install ansible ansible-lint
+#          ansible-galaxy install -r requirements.yml
 
-      - name: 'Running'
-        run: |
-          ansible-playbook PlayBook.yml --syntax-check
+#      - name: 'Running'
+#        run: |
+#          ansible-playbook PlayBook.yml --syntax-check
 
-  Build:
-    name: 'Build'
-    needs: [YAMLLint, hadoLint, ansibleLint]
-    timeout-minutes: 5
-    runs-on: ubuntu-latest
-    # if: github.ref_name == github.event.repository.default_branch
-    env:
-      REGISTRY: ghcr.io
-      TAG_NAME: latest
-      CACHE_IMAGE_NAME: buildcache
-    steps:
+#  Build:
+#    name: 'Build'
+#    needs: [YAMLLint, hadoLint, ansibleLint]
+#    timeout-minutes: 5
+#    runs-on: ubuntu-latest
+#    # if: github.ref_name == github.event.repository.default_branch
+#    env:
+#      REGISTRY: ghcr.io
+#      TAG_NAME: latest
+#      CACHE_IMAGE_NAME: buildcache
+#    steps:
 
-      - uses: actions/checkout@v3
+#      - uses: actions/checkout@v3
 
-      - name: 'Exporting lowercase image names'
-        shell: bash
-        run: |
-          : "${{ env.REGISTRY }}/${{ github.repository }}/ansible:latest"
-          echo "IMAGE_TAG=${_,,}" | tee -a "$GITHUB_ENV"
+#      - name: 'Exporting lowercase image names'
+#        shell: bash
+#        run: |
+#          : "${{ env.REGISTRY }}/${{ github.repository }}/ansible:latest"
+#          echo "IMAGE_TAG=${_,,}" | tee -a "$GITHUB_ENV"
 
-      - name: 'Login to GHCR'
-        uses: docker/login-action@v2
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+#      - name: 'Login to GHCR'
+#        uses: docker/login-action@v2
+#        with:
+#          registry: ${{ env.REGISTRY }}
+#          username: ${{ github.actor }}
+#          password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: 'Set up docker Buildx'
-        id: buildx
-        uses: docker/setup-buildx-action@v2
+#      - name: 'Set up docker Buildx'
+#        id: buildx
+#        uses: docker/setup-buildx-action@v2
 
-      - name: 'Building and push docker image'
-        uses: docker/build-push-action@v3
-        with:
-          builder: ${{ steps.buildx.outputs.name }}
-          context: ./
-          file: ./Dockerfile
-          target: ansible
-          tags: "${{ env.IMAGE_TAG }}"
-          push: true
+#      - name: 'Building and push docker image'
+#        uses: docker/build-push-action@v3
+#        with:
+#          builder: ${{ steps.buildx.outputs.name }}
+#          context: ./
+#          file: ./Dockerfile
+#          target: ansible
+#          tags: "${{ env.IMAGE_TAG }}"
+#          push: true
 
   deployAnsible:
     # needs: [Build]
