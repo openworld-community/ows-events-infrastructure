@@ -106,7 +106,6 @@ nginx_config_http_template:
           log:
             access:
               - path: '/var/log/nginx/name_access.log'
-                format: 'main'
             error:
               - /var/log/nginx/name_error.log
 
