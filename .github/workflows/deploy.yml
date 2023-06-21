@@ -123,7 +123,6 @@ jobs:
           ansible-galaxy install -r requirements.yml
           echo "$APP_ENV" >  .env
           set -o nounset -o pipefail -o errexit && set -o allexport && source .env && set +o allexport
-          printenv
           mkdir -p ~/.ssh/ && touch ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa
           echo "$SSH_RSA_KEY" > ~/.ssh/id_rsa
           ansible-playbook PlayBook.yml -vvv

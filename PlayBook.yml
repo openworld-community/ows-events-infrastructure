@@ -4,7 +4,6 @@
 
   pre_tasks:
     - name: Debug
-      delegate_to: localhost
       debug:
         msg:
           - "URL: {{ plausible_analytics_base_url }}"
@@ -12,19 +11,9 @@
           - "PORT: {{plausible_analytics_port}}"
           - "PROJECT: {{ COMPOSE_PROJECT_NAME }}"
 
-    - name: Debug
-      debug:
-        msg:
-          - "URL: {{ plausible_analytics_base_url }}"
-          - "IP: {{plausible_analytics_listen_ip}}"
-          - "PORT: {{plausible_analytics_port}}"
-          - "PROJECT: {{ COMPOSE_PROJECT_NAME }}"
-
-
-
-#  roles:
-#    - geerlingguy.certbot
-#    - nginxinc.nginx_config
+  roles:
+    #- geerlingguy.certbot
+    - nginxinc.nginx_config
 
 #  tasks:
 
