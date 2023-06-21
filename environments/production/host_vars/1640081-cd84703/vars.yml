@@ -30,13 +30,18 @@ nginx_config_http_template:
               - port: 80
             server_name:
               - "{{ plausible_analytics_domain }}"
+#            client_body_temp_path:
+#              path: /var/cache/nginx/client
+
 
           locations:
             - location: '~ /.well-known'
               core:
                 root: /var/www/letsencrypt
-                limit_except:
-                  directive: allow all
+ #               limit_except:
+ #                 method: GET
+ #                 directive: allow all
+
             - location: '/'
               rewrite:
                 return:
