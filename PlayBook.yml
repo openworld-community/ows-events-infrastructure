@@ -5,27 +5,27 @@
 
   roles:
     # - nginx
-    - geerlingguy.certbot
+    # - geerlingguy.certbot
     - nginxinc.nginx_config
 
-  tasks:
+#  tasks:
 
-    - name: Creating project directory
-      ansible.builtin.file:
-        path: "~/{{ GITHUB_REPOSITORY }}"
-        state: directory
-        # mode: '0755'
+#    - name: Creating project directory
+#      ansible.builtin.file:
+#        path: "~/{{ GITHUB_REPOSITORY }}"
+#        state: directory
+#        # mode: '0755'
 
-    - name: Copying docker compose files
-      copy:
-        src: "{{ item }}"
-        dest: "~/{{ GITHUB_REPOSITORY }}/{{ item }}"
-      loop:
-        - docker-compose.yml
-        - .env
+#    - name: Copying docker compose files
+#      copy:
+#        src: "{{ item }}"
+#        dest: "~/{{ GITHUB_REPOSITORY }}/{{ item }}"
+#      loop:
+#        - docker-compose.yml
+#        - .env
 
-    - name: Deploing docker compose stack
-      community.docker.docker_compose:
-        project_src: "~/{{ GITHUB_REPOSITORY }}"
-        files:
-          - docker-compose.yml
+#    - name: Deploing docker compose stack
+#      community.docker.docker_compose:
+#        project_src: "~/{{ GITHUB_REPOSITORY }}"
+#        files:
+#          - docker-compose.yml

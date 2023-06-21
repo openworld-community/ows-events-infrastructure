@@ -14,6 +14,7 @@ nginx_config_http_template_enable: true
 nginx_config_http_template:
   - template_file: http/default.conf.j2
     deployment_location: "/etc/nginx/conf.d/{{ plausible_analytics_base_url }}.conf"
+    backup: false
     config:
 
       upstreams:
