@@ -13,8 +13,9 @@
 
   roles:
     - {role: nginxinc.nginx, ignore_errors: yes}
-    - {role: nginxinc.nginx_config, ignore_errors: yes}
     - {role: geerlingguy.certbot, ignore_errors: yes}
+    - {role: nginxinc.nginx_config, ignore_errors: yes}
+
 
 #  tasks:
 

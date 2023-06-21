@@ -32,9 +32,14 @@ nginx_config_http_template:
               - "{{ plausible_analytics_domain }}"
 
           locations:
-            - location: '~ /.well-known'
+            - location: '^~ /.well-known/acme-challenge/'
               core:
                 root: /var/www/letsencrypt
+                default_type: "text/plain"
+
+            - location: '/.well-known/acme-challenge/'
+              core:
+                code: 404
 
             - location: '/'
               rewrite:
@@ -109,7 +114,6 @@ nginx_config_http_template:
             error:
               - /var/log/nginx/name_error.log
 
-          locations:
             - location: '/'
               proxy:
                 pass: "http://upstream.{{ plausible_analytics_domain }}.local"

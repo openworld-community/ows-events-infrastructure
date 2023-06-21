@@ -72,6 +72,3 @@ certbot_certs:
       - "{{ plausible_analytics_domain }}"
 
 certbot_create_command: "{{ certbot_script }} certonly --webroot --noninteractive --agree-tos --email {{ cert_item.email | default(certbot_admin_email) }} -d {{ cert_item.domains | join(',') }}"
-
-#certbot_create_standalone_stop_services:
-#  - nginx
