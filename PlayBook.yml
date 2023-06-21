@@ -18,7 +18,7 @@
 
     - name: Copying docker compose files
       copy:
-        src: "./{{ item }}"
+        src: "{{ item }}"
         dest: "~/{{ COMPOSE_PROJECT_NAME }}/{{ item }}"
       loop:
         - docker-compose.yml
@@ -27,5 +27,5 @@
     - name: Deploing docker compose stack
       community.docker.docker_compose:
         project_src: "~/{{ COMPOSE_PROJECT_NAME }}"
-        files:
-          - docker-compose.yml
+        #files:
+        #  - docker-compose.yml
