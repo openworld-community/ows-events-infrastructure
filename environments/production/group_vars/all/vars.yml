@@ -26,9 +26,9 @@ nginx_config_main_template:
       pid: /var/run/nginx.pid
       daemon: true
       debug_points: abort
-      env:
-        variable: PERL5LIB
-        value: /data/site/modules
+#      env:
+#        variable: PERL5LIB
+#        value: /data/site/modules
       lock_file: logs/nginx.lock
       master_process: true
       pcre_jit: false
@@ -45,8 +45,8 @@ nginx_config_main_template:
       use: epoll
       worker_aio_requests: 32
       worker_connections: 512
-    include:
-      - /etc/nginx/modules.conf
+#    include:
+#@      - /etc/nginx/modules.conf
     http:
       include:
         - /etc/nginx/conf.d/*.conf
