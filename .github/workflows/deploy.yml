@@ -116,7 +116,10 @@ jobs:
     steps:
 
       - uses: actions/checkout@v2
-      - run: |
+
+      - name: 'Deploing'
+        shell: bash
+        run: |
           ansible-galaxy install -r requirements.yml
           echo "$APP_ENV" >  .env
           set -o nounset -o errexit; set -o allexport; source "$(dirname "$0")/.env"; set +o allexport; printnev
