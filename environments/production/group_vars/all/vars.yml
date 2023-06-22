@@ -1,0 +1,67 @@
+---
+
+nginx_branch: stable
+
+nginx_config_main_template_enable: true
+nginx_config_main_template:
+  template_file: nginx.conf.j2
+  deployment_location: /etc/nginx/nginx.conf
+  backup: false
+  config:
+    main:
+#      load_module:
+#        - modules/ngx_http_js_module.so
+      user:
+        username: nginx
+      worker_cpu_affinity:
+        auto: true
+      worker_priority: 0
+      worker_processes: auto
+      worker_rlimit_core: 10000
+      worker_rlimit_nofile: 10000
+      worker_shutdown_timeout: 30m
+      error_log:
+        - file: /var/log/nginx/error.log
+          level: notice
+      pid: /var/run/nginx.pid
+      daemon: true
+      debug_points: abort
+#      env:
+#        variable: PERL5LIB
+#        value: /data/site/modules
+      lock_file: logs/nginx.lock
+      master_process: true
+      pcre_jit: false
+      thread_pool:
+        - name: default
+          threads: 32
+          max_queue: 65536
+      timer_resolution: 1s
+      working_directory: /etc/nginx
+    events:
+      accept_mutex: false
+      accept_mutex_delay: 500ms
+      multi_accept: false
+      use: epoll
+      worker_aio_requests: 32
+      worker_connections: 512
+#    include:
+#      - /etc/nginx/modules.conf
+    http:
+      include:
+        - /etc/nginx/conf.d/*.conf
+
+
+certbot_auto_renew: true
+certbot_auto_renew_user: "{{ ansible_user | default(lookup('env', 'USER')) }}"
+certbot_auto_renew_hour: "5"
+certbot_auto_renew_minute: "20"
+certbot_auto_renew_options: "--quiet"
+
+certbot_create_if_missing: true
+certbot_create_method: webroot
+certbot_webroot: "/var/www/letsencrypt"
+
+certbot_admin_email: pr0sto@hotmail.om
+
+certbot_create_command: "{{ certbot_script }} certonly --webroot --noninteractive --agree-tos --email {{ cert_item.email | default(certbot_admin_email) }} -d {{ cert_item.domains | join(',') }}"

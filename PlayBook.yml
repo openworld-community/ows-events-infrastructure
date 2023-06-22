@@ -1,0 +1,30 @@
+---
+
+- hosts: 1640081-cd84703
+
+  roles:
+    - {role: nginxinc.nginx, ignore_errors: yes}
+    - {role: geerlingguy.certbot, ignore_errors: yes}
+    - {role: nginxinc.nginx_config, ignore_errors: yes}
+
+
+  tasks:
+
+    - name: Creating project directory
+      ansible.builtin.file:
+        path: "~/{{ GITHUB_REPOSITORY }}"
+        state: directory
+
+    - name: Copying docker compose files
+      copy:
+        src: "{{ item }}"
+        dest: "~/{{ GITHUB_REPOSITORY }}/{{ item }}"
+      loop:
+        - docker-compose.yml
+        - .env
+
+    - name: Deploing docker compose stack
+      community.docker.docker_compose:
+        project_src: "~/{{ GITHUB_REPOSITORY }}"
+        files:
+          - docker-compose.yml

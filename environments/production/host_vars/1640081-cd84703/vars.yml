@@ -1,0 +1,113 @@
+---
+
+plausible_analytics_domain: "{{ lookup('env', 'BASE_URL') | urlsplit('hostname') }}"
+
+GITHUB_REPOSITORY: "{{ lookup('env', 'GITHUB_REPOSITORY') }}"
+
+nginx_config_http_template_enable: true
+nginx_config_http_template:
+  - template_file: http/default.conf.j2
+    deployment_location: "/etc/nginx/conf.d/{{ plausible_analytics_domain }}.conf"
+    backup: false
+    config:
+
+      upstreams:
+        - name: "upstream.{{ plausible_analytics_domain }}.local"
+          least_conn: true
+          servers:
+            - address: '127.0.0.1:8000'
+              weight: 5
+
+      servers:
+        - core:
+            listen:
+              - port: 80
+            server_name:
+              - "{{ plausible_analytics_domain }}"
+
+          locations:
+            - location: '^~ /.well-known/acme-challenge/'
+              core:
+                root: "{{ certbot_webroot }}"
+                default_type: "text/plain"
+            - location: '/'
+              rewrite:
+                return:
+                  code: 301
+                  url: 'https://$server_name:443$request_uri'
+
+        - core:
+            listen:
+              - port: 443
+                ssl: true
+                http2: true
+            server_name:
+              - "{{ plausible_analytics_domain }}"
+
+          ssl:
+            certificate:
+              - /etc/letsencrypt/live/{{ plausible_analytics_domain }}/fullchain.pem
+            certificate_key:
+              - /etc/letsencrypt/live/{{ plausible_analytics_domain }}/privkey.pem
+            #trusted_certificate: '/etc/pki/tls/certs/{{ plausible_analytics_domain }}-p-384/{{ plausible_analytics_domain }}-p-384-chain.pem'
+            #dhparam: '/etc/pki/tls/misc/dhparam.crt'
+            protocols:
+              - TLSv1.2
+              - TLSv1.3
+            ciphers:
+              - ECDHE-ECDSA-AES128-GCM-SHA256
+              - ECDHE-RSA-AES128-GCM-SHA256
+              - ECDHE-ECDSA-AES256-GCM-SHA384
+              - ECDHE-RSA-AES256-GCM-SHA384
+              - ECDHE-ECDSA-CHACHA20-POLY1305
+              - ECDHE-RSA-CHACHA20-POLY1305
+              - DHE-RSA-AES128-GCM-SHA256
+              - DHE-RSA-AES256-GCM-SHA384
+            ecdh_curve:
+              - secp521r1
+              - secp384r1
+            prefer_server_ciphers: false
+            session_cache:
+              shared:
+                name: 'SSL'
+                size: '10m'
+            session_tickets: true
+            session_timeout: '1d'
+
+          headers:
+            add_headers:
+              - name: 'Strict-Transport-Security'
+                value: '"max-age=63072000"'
+                always: true
+              - name: 'X-Frame-Options'
+                value: '"SAMEORIGIN"'
+                always: false
+            add_trailers:
+              - name: 'Strict-Transport-Security'
+                value: '"max-age=63072000"'
+                always: true
+              - name: 'X-Frame-Options'
+                value: '"SAMEORIGIN"'
+                always: false
+
+          log:
+            access:
+              - path: '/var/log/nginx/name_access.log'
+            error:
+              - /var/log/nginx/name_error.log
+
+          locations:
+            - location: '/'
+              proxy:
+                pass: "http://upstream.{{ plausible_analytics_domain }}.local"
+                set_header:
+                  - field: 'X-Forwarded-For'
+                    value: '$proxy_add_x_forwarded_for'
+
+
+certbot_testmode: false
+certbot_certs:
+  - email: pr0sto@hotmail.om
+    webroot: "{{ certbot_webroot }}"
+    domains:
+      - "{{ plausible_analytics_domain }}"
