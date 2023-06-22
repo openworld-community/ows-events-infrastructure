@@ -74,11 +74,6 @@ nginx_config_http_template:
             session_tickets: true
             session_timeout: '1d'
 
-          access:
-            allow:
-              - 195.34.118.0/24
-            deny: 'all'
-
           headers:
             add_headers:
               - name: 'Strict-Transport-Security'
