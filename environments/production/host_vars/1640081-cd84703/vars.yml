@@ -2,12 +2,6 @@
 
 plausible_analytics_domain: "{{ lookup('env', 'BASE_URL') | urlsplit('hostname') }}"
 
-plausible_analytics_listen_ip: "{{ lookup('env', 'LISTEN_IP') }}"
-
-plausible_analytics_port: "{{ lookup('env', 'PORT') }}"
-
-COMPOSE_PROJECT_NAME: "{{ lookup('env', 'COMPOSE_PROJECT_NAME') }}"
-
 GITHUB_REPOSITORY: "{{ lookup('env', 'GITHUB_REPOSITORY') }}"
 
 nginx_config_http_template_enable: true
@@ -21,7 +15,7 @@ nginx_config_http_template:
         - name: "upstream.{{ plausible_analytics_domain }}.local"
           least_conn: true
           servers:
-            - address: '{{ plausible_analytics_listen_ip }}:{{ plausible_analytics_port }}'
+            - address: '127.0.0.1:8000'
               weight: 5
 
       servers:
