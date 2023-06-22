@@ -37,11 +37,11 @@ services:
       BASE_URL: "${BASE_URL:-http://analytics.plausible.local}"
       DATABASE_URL: "postgres://$POSTGRES_USER:$POSTGRES_PASSWORD@plausible_db:5432/$POSTGRES_DB"
       CLICKHOUSE_DATABASE_URL: "http://$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD@plausible_events_db:8123/$CLICKHOUSE_DB"
-    image: plausible/analytics:v1.5
+    image: plausible/analytics:latest
     command: sh -c "sleep 10 && /entrypoint.sh db migrate && /entrypoint.sh db init-admin && /entrypoint.sh run"
     restart: "${DOCKER_RESTART_POLICY:-always}"
     ports:
-      - 8000:8000
+      - 127.0.0.1:8000:8000
     depends_on:
       - plausible_db
       - plausible_events_db

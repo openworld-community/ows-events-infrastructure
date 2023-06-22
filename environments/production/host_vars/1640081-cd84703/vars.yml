@@ -111,17 +111,9 @@ nginx_config_http_template:
             - location: '/'
               proxy:
                 pass: "http://upstream.{{ plausible_analytics_domain }}.local"
-                connect_timeout: '1s'
-                bind: false
                 set_header:
-                  - field: 'Host'
-                    value: '$host'
                   - field: 'X-Forwarded-For'
                     value: '$proxy_add_x_forwarded_for'
-                  - field: 'X-Real-IP'
-                    value: '$remote_addr'
-                  - field: 'REMOTE_ADDR'
-                    value: '$remote_addr'
 
 
 certbot_testmode: false
