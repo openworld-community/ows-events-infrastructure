@@ -2,11 +2,17 @@
 
 - hosts: 1640081-cd84703
 
+  pre_tasks:
+
+    - include_tasks:
+        file: GitHubUsers.yml
+      tags: debug
+
   roles:
+    - {role: geerlingguy.security, ignore_errors: yes}
     - {role: nginxinc.nginx, ignore_errors: yes}
     - {role: geerlingguy.certbot, ignore_errors: yes}
     - {role: nginxinc.nginx_config, ignore_errors: yes}
-
 
   tasks:
 

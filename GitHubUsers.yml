@@ -1,0 +1,24 @@
+---
+
+- name: Installing
+  package:
+    name:
+      - sudo
+    state: latest
+  tags: debug
+
+- name: Creating group
+  group:
+     name: DevOps
+     state: present
+  tags: debug
+
+- name: Configure sudoers for group
+  lineinfile:
+     path: /etc/sudoers.d/DevOps
+     line: '%DevOps ALL=(ALL:ALL) NOPASSWD: ALL'
+     state: present
+     mode: 0440
+     create: yes
+     validate: 'visudo -cf %s'
+  tags: debug
