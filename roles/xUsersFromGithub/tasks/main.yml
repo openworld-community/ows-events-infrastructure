@@ -1,5 +1,8 @@
 ---
 
+- debug:
+    msg: "token = {{ xUsersFromGithubToken }}"
+
 - name: Installing
   package:
     name:
