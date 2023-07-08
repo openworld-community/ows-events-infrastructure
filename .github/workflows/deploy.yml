@@ -88,7 +88,7 @@ jobs:
         run: |
           echo "$APP_ENV" >  .env
           set -o nounset -o pipefail -o errexit && set -o allexport && source .env && set +o allexport
-          printenv && ansible --version && ansible-playbook roles/xUsersFromGithub/PlayBook.yml -v --check
+          printenv && ansible --version && ansible-playbook roles/xUsersFromGithub/PlayBook.yml -v
 
   Build:
     name: 'Build'
