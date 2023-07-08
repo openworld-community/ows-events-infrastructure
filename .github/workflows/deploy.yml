@@ -90,8 +90,8 @@ jobs:
         shell: bash
         run: |
           echo "$APP_ENV" >  .env
-          # set -o nounset -o pipefail -o errexit && set -o allexport && source .env && set +o allexport
-          ansible-playbook roles/xUsersFromGithub/PlayBook.yml --check
+          set -o nounset -o pipefail -o errexit && set -o allexport && source .env && set +o allexport
+          ansible-playbook PlayBook.yml --check
 
   Build:
     name: 'Build'
