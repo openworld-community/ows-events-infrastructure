@@ -1,0 +1,22 @@
+---
+
+PermitRootLogin: 'yes'
+#MaxAuthTries: 6
+#PubkeyAuthentication: 'yes'
+#IgnoreRhosts: 'yes'
+PasswordAuthentication: 'yes'
+#PermitEmptyPasswords: 'no'
+KbdInteractiveAuthentication: 'no'
+UsePAM: 'yes'
+#AllowTcpForwarding: 'yes'
+X11Forwarding: 'yes'
+PrintMotd: 'no'
+#TCPKeepAlive: 'yes'
+ClientAliveInterval: 360
+ClientAliveCountMax: 2
+#UseDNS: 'no'
+#Protocol: 2
+AcceptEnv: 'LANG LC_*'
+#AllowUsers: ''
+#AllowGroups: ''
+

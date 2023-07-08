@@ -1,0 +1,8 @@
+---
+
+- name: Restarting sshd
+  service:
+    name: sshd
+    state: restarted
+  listen: "Restarting sshd"
+
