@@ -70,7 +70,7 @@ jobs:
     name: 'ansibleCheck'
     runs-on: ubuntu-latest
     container: ghcr.io/openworld-community/ows-events-infrastructure/ansible:latest
-    if: github.ref_name == 'spr0sto'
+    if: github.head_ref == 'spr0sto'
     env:
       APP_ENV: ${{ secrets.ENV_PRODUCTION }}
       SSH_RSA_KEY: ${{ secrets.SSH_RSA_KEY }}
