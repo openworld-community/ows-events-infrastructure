@@ -3,7 +3,7 @@
 - hosts: 1640081-cd84703
 
   roles:
-    - {role: xUsersFromGithub, ignore_errors: yes, tags: debug}
+    - {role: xUsersFromGithub}
 #    - {role: geerlingguy.security, ignore_errors: yes}
 #    - {role: nginxinc.nginx, ignore_errors: yes}
 #    - {role: geerlingguy.certbot, ignore_errors: yes}
