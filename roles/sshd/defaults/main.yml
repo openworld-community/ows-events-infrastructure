@@ -19,4 +19,3 @@ ClientAliveCountMax: 2
 AcceptEnv: 'LANG LC_*'
 #AllowUsers: ''
 #AllowGroups: ''
-
