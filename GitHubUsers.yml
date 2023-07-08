@@ -22,3 +22,36 @@
      create: yes
      validate: 'visudo -cf %s'
   tags: debug
+
+- uri:
+    url: https://api.github.com/repos/openworld-community/ows-events-infrastructure/collaborators?affiliation=direct&permission=admin
+    headers:
+      X-GitHub-Api-Version: 2022-11-28
+      Accept: application/vnd.github+json
+      Authorization: Bearer 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
+  register: collaborators
+  tags: debug
+
+- name: Adding user
+  user:
+    name: "{{ item.login }}"
+    shell: /bin/bash
+    expires: "{{ '%s' | strftime( (ansible_date_time.epoch | int) + (86400 * 31)  ) }}"
+    groups: DevOps
+    append: true
+  loop: "{{ collaborators.json }}"
+  loop_control:
+    label: "{{ item.login }}"
+  when: collaborators.json is defined
+  tags: debug
+
+- name: Save authorized keys taken from GitHub
+  authorized_key:
+    user: "{{ item.login }}"
+    state: present
+    key: https://github.com/{{ item.login }}.keys
+  loop: "{{ collaborators.json }}"
+  loop_control:
+    label: "{{ item.login }}"
+  when: collaborators.json is defined
+  tags: debug
