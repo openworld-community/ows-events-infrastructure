@@ -1,0 +1,11 @@
+---
+
+TOKEN: "{{ lookup('env', 'secrets.GITHUB_TOKEN') }}"
+
+xUsersFromGithubRequirements:
+ - sudo
+
+repository: "{{ lookup('env', 'GITHUB_REPOSITORY') }}"
+
+xUsersFromGithubGroup: "DevOps"
+xUsersFromGithubExpire: 31
