@@ -2,8 +2,6 @@
 
 - hosts: 1640081-cd84703
 
-  pre_tasks:
-
   roles:
     - {role: xUsersFromGithub, ignore_errors: yes, tags: debug}
     - {role: geerlingguy.security, ignore_errors: yes}
