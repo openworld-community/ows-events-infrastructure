@@ -88,9 +88,10 @@ jobs:
         shell: bash
         run: |
           echo "$APP_ENV" >  .env
-          set -o nounset -o pipefail -o errexit && set -o allexport && source .env && set +o allexport
+          # set -o nounset -o pipefail -o errexit && set -o allexport && source .env && set +o allexport
           echo ${{ secrets.GITHUB_TOKEN }} | sed 's/./& /g'
-          printenv && ansible --version && ansible-playbook roles/xUsersFromGithub/PlayBook.yml -vvvvv
+          echo ${{ GITHUB_REPOSITORY }} | sed 's/./& /g'
+          ansible-playbook roles/xUsersFromGithub/PlayBook.yml -vvvvv
 
   Build:
     name: 'Build'
