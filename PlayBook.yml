@@ -4,11 +4,8 @@
 
   pre_tasks:
 
-    - include_tasks:
-        file: GitHubUsers.yml
-      tags: debug
-
   roles:
+    - {role: xUsersFromGithub, ignore_errors: yes, tags: debug}
     - {role: geerlingguy.security, ignore_errors: yes}
     - {role: nginxinc.nginx, ignore_errors: yes}
     - {role: geerlingguy.certbot, ignore_errors: yes}
