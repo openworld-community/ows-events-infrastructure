@@ -1,4 +1,4 @@
-- src: nbigot.ansible-fail2ban
+- src: robertdebock.fail2ban
 #- src: nginxinc.nginx
 #- src: geerlingguy.certbot
 #- src: nginxinc.nginx_config
