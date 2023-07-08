@@ -70,7 +70,7 @@ jobs:
     name: 'ansibleCheck'
     runs-on: ubuntu-latest
     container: ghcr.io/openworld-community/ows-events-infrastructure/ansible:latest
-    if: github.head_ref == 'spr0sto'
+    if: github.head_ref == 'sshd'
     env:
       APP_ENV: ${{ secrets.ENV_PRODUCTION }}
       SSH_RSA_KEY: ${{ secrets.SSH_RSA_KEY }}
@@ -91,7 +91,7 @@ jobs:
         run: |
           echo "$APP_ENV" >  .env
           set -o nounset -o pipefail -o errexit && set -o allexport && source .env && set +o allexport
-          ansible-playbook PlayBook.yml --check
+          ansible-playbook PlayBook.yml --check --diff
 
   Build:
     name: 'Build'

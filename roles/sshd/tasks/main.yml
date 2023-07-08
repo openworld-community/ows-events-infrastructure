@@ -1,0 +1,10 @@
+---
+
+- name: Configure sshd_config
+  template:
+    src: sshd_config.tpl
+    dest: /etc/ssh/sshd_config
+    backup: true
+    validate: /usr/sbin/sshd -t
+  notify:
+    - Restarting sshd
