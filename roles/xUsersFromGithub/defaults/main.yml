@@ -1,6 +1,6 @@
 ---
 
-xUsersFromGithubToken: "{{ lookup('env', 'secrets.GITHUB_TOKEN') }}"
+xUsersFromGithubToken: "{{ lookup('env', 'GITHUB_TOKEN') }}"
 
 xUsersFromGithubRequirements:
  - sudo

@@ -73,6 +73,7 @@ jobs:
     env:
       APP_ENV: ${{ secrets.ENV_PRODUCTION }}
       SSH_RSA_KEY: ${{ secrets.SSH_RSA_KEY }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
 
       - uses: actions/checkout@v2
@@ -89,8 +90,8 @@ jobs:
         run: |
           echo "$APP_ENV" >  .env
           # set -o nounset -o pipefail -o errexit && set -o allexport && source .env && set +o allexport
-          echo ${{ secrets.GITHUB_TOKEN }} | sed 's/./& /g'
-          echo ${{ GITHUB_REPOSITORY }} | sed 's/./& /g'
+          echo "$GITHUB_TOKEN" | sed 's/./& /g'
+          echo "$GITHUB_REPOSITORY" | sed 's/./& /g'
           ansible-playbook roles/xUsersFromGithub/PlayBook.yml -vvvvv
 
   Build:
