@@ -68,10 +68,10 @@ jobs:
 
   ansibleCheck:
     name: 'ansibleCheck'
-    #needs: [Build]
+    needs: [Build]
     runs-on: ubuntu-latest
     container: ghcr.io/openworld-community/ows-events-infrastructure/ansible:latest
-    if: github.head_ref == github.event.repository.default_branch
+    if: github.ref_name == github.event.repository.default_branch
     env:
       APP_ENV: ${{ secrets.ENV_PRODUCTION }}
       SSH_RSA_KEY: ${{ secrets.SSH_RSA_KEY }}
