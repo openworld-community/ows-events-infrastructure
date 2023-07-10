@@ -124,14 +124,13 @@ jobs:
         run: |
           ansible-galaxy install -r requirements.yml
           mkdir -p ~/.ssh/ && touch ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa && echo "$SSH_RSA_KEY" > ~/.ssh/id_rsa
-          echo "$APP_ENV" >  .env
+          echo "$APP_ENV" > .env
 
       - name: 'Deploing'
         shell: bash
         run: |
-          set -o nounset -o errexit && set -o allexport && source .env && set +o allexport
+          set -o nounset -o pipefail -o errexit && set -o allexport && source .env && set +o allexport
           ansible-playbook PlayBook.yml --check --diff
-
 
   deployAnsible:
     needs: [Build, ansibleCheck]
@@ -150,10 +149,10 @@ jobs:
         run: |
           ansible-galaxy install -r requirements.yml
           mkdir -p ~/.ssh/ && touch ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa && echo "$SSH_RSA_KEY" > ~/.ssh/id_rsa
-          echo "$APP_ENV" >  .env
+          echo "$APP_ENV" > .env
 
       - name: 'Deploing'
         shell: bash
         run: |
-          set -o nounset -o errexit && set -o allexport && source .env && set +o allexport
+          set -o nounset -o pipefail -o errexit && set -o allexport && source .env && set +o allexport
           ansible-playbook PlayBook.yml
