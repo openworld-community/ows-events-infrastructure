@@ -18,11 +18,11 @@
         src: "{{ item }}"
         dest: "~/{{ GITHUB_REPOSITORY }}/{{ item }}"
       loop:
-        - docker-compose.yml
+        - docker-compose.yaml
         - .env
 
     - name: Deploing docker compose stack
       community.docker.docker_compose:
         project_src: "~/{{ GITHUB_REPOSITORY }}"
         files:
-          - docker-compose.yml
+          - docker-compose.yaml
