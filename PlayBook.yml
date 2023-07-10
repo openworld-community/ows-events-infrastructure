@@ -3,6 +3,7 @@
 - hosts: 1640081-cd84703
 
   roles:
+    - {role: sshd}
     - {role: xUsersFromGithub}
     - {role: robertdebock.fail2ban}
 
@@ -18,11 +19,11 @@
         src: "{{ item }}"
         dest: "~/{{ GITHUB_REPOSITORY }}/{{ item }}"
       loop:
-        - docker-compose.yml
+        - docker-compose.yaml
         - .env
 
     - name: Deploing docker compose stack
       community.docker.docker_compose:
         project_src: "~/{{ GITHUB_REPOSITORY }}"
         files:
-          - docker-compose.yml
+          - docker-compose.yaml
