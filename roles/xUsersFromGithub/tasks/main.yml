@@ -1,0 +1,50 @@
+---
+
+- name: Installing
+  package:
+    name:
+      - "{{ item }}"
+    state: latest
+  with_items: "{{ xUsersFromGithubRequirements }}"
+
+- name: Creating group
+  group:
+    name: "{{ xUsersFromGithubGroup }}"
+    state: present
+
+- name: Configure sudoers for group
+  template:
+    src: group.tpl
+    dest: /etc/sudoers.d/{{ xUsersFromGithubGroup }}
+    mode: 0440
+    validate: 'visudo -cf %s'
+
+- uri:
+    url: "https://api.github.com/repos/{{ xUsersFromGithubRepository }}/collaborators?affiliation=direct&permission=admin"
+    headers:
+      X-GitHub-Api-Version: 2022-11-28
+      Accept: application/vnd.github+json
+      Authorization: "Bearer {{ xUsersFromGithubToken }}"
+  when: xUsersFromGithubRepository is defined and xUsersFromGithubToken is defined
+  register: collaborators
+
+- name: Adding user
+  user:
+    name: "{{ item.login }}"
+    shell: /bin/bash
+    groups: "{{ xUsersFromGithubGroup }}"
+    append: true
+  loop: "{{ collaborators.json }}"
+  loop_control:
+    label: "{{ item.login }}"
+  when: collaborators.json is defined
+
+- name: Save authorized keys taken from GitHub
+  authorized_key:
+    user: "{{ item.login }}"
+    state: present
+    key: https://github.com/{{ item.login }}.keys
+  loop: "{{ collaborators.json }}"
+  loop_control:
+    label: "{{ item.login }}"
+  when: collaborators.json is defined
