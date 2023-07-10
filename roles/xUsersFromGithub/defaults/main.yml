@@ -1,0 +1,10 @@
+---
+
+xUsersFromGithubToken: "{{ lookup('env', 'GITHUB_TOKEN') }}"
+
+xUsersFromGithubRequirements:
+ - sudo
+
+xUsersFromGithubRepository: "{{ lookup('env', 'GITHUB_REPOSITORY') }}"
+
+xUsersFromGithubGroup: "DevOps"

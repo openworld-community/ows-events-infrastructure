@@ -3,10 +3,8 @@
 - hosts: 1640081-cd84703
 
   roles:
-    - {role: nginxinc.nginx, ignore_errors: yes}
-    - {role: geerlingguy.certbot, ignore_errors: yes}
-    - {role: nginxinc.nginx_config, ignore_errors: yes}
-
+    - {role: xUsersFromGithub}
+    - {role: robertdebock.fail2ban}
 
   tasks:
 
