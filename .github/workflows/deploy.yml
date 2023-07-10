@@ -108,7 +108,7 @@ jobs:
 
   ansibleCheck:
     name: 'ansibleCheck'
-    needs: [Build]
+    #needs: [Build]
     runs-on: ubuntu-latest
     container: ghcr.io/openworld-community/ows-events-infrastructure/ansible:latest
     #if: github.ref_name == github.event.repository.default_branch
