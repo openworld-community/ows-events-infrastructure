@@ -19,9 +19,6 @@
     mode: 0440
     validate: 'visudo -cf %s'
 
-- debug:
-    msg: "tkn = {{ xUsersFromGithubToken }}"
-
 - uri:
     url: "https://api.github.com/repos/{{ xUsersFromGithubRepository }}/collaborators?affiliation=direct&permission=admin"
     headers:
