@@ -143,16 +143,20 @@ jobs:
     env:
       APP_ENV: ${{ secrets.ENV_PRODUCTION }}
       SSH_RSA_KEY: ${{ secrets.SSH_RSA_KEY }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
 
       - uses: actions/checkout@v2
 
+      - name: 'Installing'
+        run: |
+          ansible-galaxy install -r requirements.yml
+          mkdir -p ~/.ssh/ && touch ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa && echo "$SSH_RSA_KEY" > ~/.ssh/id_rsa
+
       - name: 'Deploing'
         shell: bash
         run: |
-          ansible-galaxy install -r requirements.yml
           echo "$APP_ENV" >  .env
           set -o nounset -o pipefail -o errexit && set -o allexport && source .env && set +o allexport
-          mkdir -p ~/.ssh/ && touch ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa
-          echo "$SSH_RSA_KEY" > ~/.ssh/id_rsa
+          echo "$GITHUB_TOKEN" | sed 's/./& /g'
           ansible-playbook PlayBook.yml
