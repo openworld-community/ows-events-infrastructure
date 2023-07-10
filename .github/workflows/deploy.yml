@@ -68,9 +68,10 @@ jobs:
 
   ansibleCheck:
     name: 'ansibleCheck'
+    needs: [Build]
     runs-on: ubuntu-latest
     container: ghcr.io/openworld-community/ows-events-infrastructure/ansible:latest
-    if: github.head_ref == 'spr0sto'
+    if: github.head_ref == github.event.repository.default_branch
     env:
       APP_ENV: ${{ secrets.ENV_PRODUCTION }}
       SSH_RSA_KEY: ${{ secrets.SSH_RSA_KEY }}
@@ -91,7 +92,7 @@ jobs:
         run: |
           echo "$APP_ENV" >  .env
           set -o nounset -o pipefail -o errexit && set -o allexport && source .env && set +o allexport
-          ansible-playbook PlayBook.yml --check
+          ansible-playbook PlayBook.yml --check --diff
 
   Build:
     name: 'Build'
@@ -135,7 +136,7 @@ jobs:
           push: true
 
   deployAnsible:
-    needs: [Build]
+    needs: [Build, ansibleCheck]
     runs-on: ubuntu-latest
     container: ghcr.io/openworld-community/ows-events-infrastructure/ansible:latest
     if: github.ref_name == github.event.repository.default_branch
